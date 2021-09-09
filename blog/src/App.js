@@ -28,6 +28,30 @@ function App() {
   let [글제목,글제목변경] = useState(['남자 셔츠 추천', '산정동 우동 맛집','와 샌즈','트위터 만들기 힘들다']); 
   let[따봉, 따봉변경] = useState(0);
 
+  let [modal, modal변경] = useState(false);
+
+
+  let [누른제목, 누른제목변경] = useState(0);
+
+  let [입력값, 입력값변경] = useState('');
+
+  function 반복된UI(){
+
+    var 어레이 = [];
+    for (var i = 0; i<3; i++){
+      어레이.push(<div>안녕</div>);
+    }
+
+    return 어레이
+  }
+
+  var 어레이 = [2,3,4];
+  
+  var 뉴어레이 = 어레이.map(function(a){
+    return a*2
+  });
+
+  //.map = 유사 반복문
 
   function 제목바꾸기(){
     //var newArray = 글제목; <- 이건 값 공유임. 
@@ -50,38 +74,58 @@ function App() {
       <div className="black-nav">
         <div>개발 Blog</div>
       </div>
-      <div className = "list">
-        <h3> {글제목[1]} <span onClick = { ()=> {따봉변경(따봉 + 1)} }>👍</span>{따봉}</h3>
-        <p>2월 17일 발행</p>
-        <hr/>
-        <h3> {글제목[0]} </h3>
-        <p>2월 17일 발행</p>
-        <hr/>
      
-        <h3> {글제목[3]} </h3>
-        <p>2월 17일 발행</p>
-        <hr/>
-    
-        <h3> {글제목[2]} </h3>
-        <p>2월 17일 발행</p>
-        <hr/>
+    {/* {반복된UI()} */}
+        { 
+          글제목.map(function(글, i){
+            return (
+            <div className = "list" key={i}>
+            <h3 onClick={ ()=>{ 누른제목변경(i)}}> {글} <span onClick = { ()=> {따봉변경(따봉 + 1)} }>👍</span>{따봉}</h3>
+            <p>2월 17일 발행</p>
+            <hr/>
+          </div>
+            )
+          })
+        }
+      {/* <button onClick={ ()=>{ 누른제목변경(0)}}>버튼1</button>
+      <button onClick={ ()=>{ 누른제목변경(1)} }>버튼2</button>
+      <button onClick={ ()=>{ 누른제목변경(2)} }>버튼3</button> */}
+
+        {/* { 입력값}
+        <input onChange = { (e) => {입력값변경(e.target.value)} }></input> */}
+
+        <div className = "publish">
+          <input onChange = { (e)=> {입력값변경(e.target.value)} } />
+          <button onClick = { () => {
+            var arrayCopy = [...글제목];
+            arrayCopy.unshift(입력값); //array 맨 앞에 자료 추가 하는 문법
+            글제목변경(arrayCopy);
+          } }>저장</button>
         </div>
-        {/* <button onClick = { 제목바꾸기}>버튼</button> */}
 
-      
-        <Modal/>
 
-      </div>
 
+
+        <button onClick = { ()=> {modal변경(!modal)} }>버튼</button>
+
+        {
+          modal === true
+          ? <Modal 글제목={글제목} 누른제목={누른제목}> </Modal>
+          : null
+        }
+
+    </div>
   );
-
-
 }
 
-function Modal(){
+function Modal(props){
   return(
+
+    //자식컴포넌트는 부모컴포넌트가 가진 state를 쓰려면 props로 전송해줘야 쓸 수 있음.
+    // 1. <자식컴포넌트 작명={state명}/>
+    // 2. 자식컴포넌트에서 props 파라미터 입력 후 사용
     <div className = "modal">
-          <h2>제목</h2>
+          <h2>{ props.글제목[props.누른제목] }</h2>
           <p>날짜</p>
           <p>상세내용</p>
         </div>
