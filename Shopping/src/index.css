@@ -33,8 +33,12 @@ code {
 }
 
 .background{
-  background-image:url('./background.jpg');
+  background-image:url('./bg.png');
   background-size:cover;
   color:white;
+}
+
+.op{
+  margin-bottom:20px;
 }
 
