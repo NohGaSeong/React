@@ -33,7 +33,7 @@ code {
 }
 
 .background{
-  background-image:url('./bg.png');
+  background-image:url('./background.jpg');
   background-size:cover;
   color:white;
 }

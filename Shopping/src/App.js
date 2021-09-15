@@ -2,7 +2,9 @@ import {useState} from 'react';
 import { Button,Navbar , Container,Nav,NavDropdown,Jumbotron} from 'react-bootstrap';
 import './App.css';
 import Data from './data.js';
+import Detail from './Detail.js';
 
+import {Link, Route, Switch} from 'react-router-dom';
 function App() {
 
   let [shoes, shoes변경] = useState(Data);
@@ -10,12 +12,12 @@ function App() {
     <div className="App">
       <Navbar bg="light" expand="lg">
   <Container>
-    <Navbar.Brand href="#home">LUNATIC</Navbar.Brand>
+    <Navbar.Brand href="#home">shopping</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#link">Introduction</Nav.Link>
+        <Nav.Link> <Link to="/">Home</Link></Nav.Link>
+        <Nav.Link><Link to = "/detail">Detail</Link></Nav.Link>
         <NavDropdown title="Category" id="basic-nav-dropdown">
           <NavDropdown.Item href="#action/3.1">Shoes</NavDropdown.Item>
           <NavDropdown.Item href="#action/3.2">Outer</NavDropdown.Item>
@@ -28,7 +30,12 @@ function App() {
   </Container>
 </Navbar>
 
-<div class="container py-4">
+
+<Switch>
+
+
+<Route exact path = "/">
+  <div class="container py-4">
  
 
     <div class="p-5 mb-4 bg-light rounded-3 background">
@@ -38,18 +45,35 @@ function App() {
         <button class="btn btn-primary btn-lg" type="button">구매하러가기</button>
       </div>
     </div>
-</div>
-
-
-<div className="container">
+  </div>
+  <div className="container">
         <div className="row">
           { 
             shoes.map((a,i)=>{
-             return<Card shoes={shoes[i]} i={i} />
+             return<Card shoes={shoes[i]} i={i} key = {i}/>
             })
           }
         </div>
-      </div>
+    </div>
+
+</Route>
+
+<Route path="/detail/:id">
+  <Detail shoes={shoes}/>
+</Route>
+
+<Route path = "/:id">
+  <div>아무거나</div>
+</Route>
+
+</Switch>
+{/* <Route path = "/어쩌구" component={Modal}></Route> */}
+
+
+
+
+
+
     </div>
   )
 }
@@ -63,5 +87,5 @@ function Card(props){
       <p>{ props.shoes.content } & { props.shoes.price }</p>
     </div>
   )
-}
+} 
 export default App;
